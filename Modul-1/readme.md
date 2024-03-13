@@ -339,8 +339,8 @@ Dalam praktikum ini, mempelajari tentang tipe data yang terdiri dari tiga jenis,
 Praktikan dapat membuat program dengan menggunakan ketiga tipe data tersebut. Proses pembuatan program mengajarkan kepada Praktikan tentang ketelitian, ketekunan, dan active critical thinking dalam memecahkan masalah dan menyelesaikan program. Meskipun praktikan sudah berhasil membuat program yang dimaksudkan, namun masih diperlukan penemuan kode yang lebih ringkas untuk memperbaiki program yang telah dibuat
 
 ## Referensi
-[1] Asisten Praktikum, "Modul 1-Tipe Data", Praktikum Struktur Data dan Algoritma, Learning ManagementSystem, 2024.
-[2] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
+[1] Asisten Praktikum, "Modul 1-Tipe Data", Praktikum Struktur Data dan Algoritma, Learning ManagementSystem, 2024.<br>
+[2] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.<br>
 [3] Stroustrup, Bjarne. "The C++ Programming Language." Addison-Wesley Professional, 2013.
 
 
