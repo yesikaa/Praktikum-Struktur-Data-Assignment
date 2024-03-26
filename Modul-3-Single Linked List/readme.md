@@ -1,4 +1,4 @@
-![Unguided-2-2](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/46c9b98e-f539-4275-bb0a-4d56e97ebbee)# <h1 align="center">Laporan Praktikum Modul Single and Double Linked List</h1>
+# <h1 align="center">Laporan Praktikum Modul Single and Double Linked List</h1>
 <p align="center" style="font-size:16px;">Yesika Widiyani</p>
 <p align="center" style="font-size:16px;">2311102195</p>
 <p align="center" style="font-size:16px;">IF-11-E</p>
