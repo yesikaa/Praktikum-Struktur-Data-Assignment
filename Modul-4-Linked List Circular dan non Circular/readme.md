@@ -1222,7 +1222,7 @@ Dengan Praktikum linked list circular dan non-circular memberikan pemahaman mend
 <div/>
   
 ## Referensi
-[1] Triase, "Struktur Data : Diktat Edisi Revisi.", online-available on repositiry uinsu. (2020). 
-[2] A. Arraffi, “PENGERTIAN LINIER DALAM STRUKTUR DATA MAJEMUK”, Online-Available: osf.io/sczvp. (2019). 
-[3] A. k . Putra, “List linier(linked list) dan variasinya_struktur data”, Online-Available: osf.io/tjnfa.(2019). 
-[4] M. yulianti, “struktur data_double linked list circular”, Online- Available: osf.io/2nhs5.(2019). 
+[1] Triase, "Struktur Data : Diktat Edisi Revisi.", online-available on repositiry uinsu. (2020). </br>
+[2] A. Arraffi, “PENGERTIAN LINIER DALAM STRUKTUR DATA MAJEMUK”, Online-Available: osf.io/sczvp. (2019). </br>
+[3] A. k . Putra, “List linier(linked list) dan variasinya_struktur data”, Online-Available: osf.io/tjnfa.(2019). </br>
+[4] M. yulianti, “struktur data_double linked list circular”, Online- Available: osf.io/2nhs5.(2019). </br>
