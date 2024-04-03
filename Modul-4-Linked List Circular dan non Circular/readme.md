@@ -769,8 +769,22 @@ public:
     void tambahDepan(string nama, string nim, string namaBaru)
     {
         Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
-        newNode->next = head;
-        head = newNode;
+        if (head == nullptr)
+        {
+            newNode->next = newNode; // Mengubah pointer next menjadi dirinya sendiri jika linked list masih kosong
+            head = newNode;
+        }
+        else
+        {
+            Mahasiswa *temp = head;
+            while (temp->next != head)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+            head = newNode;
+        }
     }
 
     // Fungsi untuk menambahkan data di belakang
@@ -779,15 +793,19 @@ public:
         Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
         if (head == nullptr)
         {
+            newNode->next = newNode; // Mengubah pointer next menjadi dirinya sendiri jika linked list masih kosong
             head = newNode;
-            return;
         }
-        Mahasiswa *temp = head;
-        while (temp->next != nullptr)
+        else
         {
-            temp = temp->next;
+            Mahasiswa *temp = head;
+            while (temp->next != head)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
         }
-        temp->next = newNode;
     }
 
     // Fungsi untuk menambahkan data di Tengah
@@ -798,17 +816,16 @@ public:
             cout << "Posisi tidak tepat." << endl;
             return;
         }
-        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
         if (posisi == 1)
         {
-            newNode->next = head;
-            head = newNode;
+            tambahDepan(nama, nim, namaBaru);
             return;
         }
+        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
         Mahasiswa *temp = head;
         for (int i = 1; i < posisi - 1; i++)
         {
-            if (temp == nullptr)
+            if (temp == nullptr || temp->next == head)
             {
                 cout << "Posisi tidak tepat." << endl;
                 return;
@@ -829,7 +846,7 @@ public:
         }
 
         string namaLama = head->nama; // Menyimpan nama sebelumnya
-        cout << "Data " << head->namaBaru << " telah berhasil diubah dengan data " << namaBaru << "." << endl;
+        cout << "Data " << head->namaBaru << " berhasil diubah dengan data " << namaBaru << "!" << endl;
         head->nama = nama;
         head->nim = nim;
         head->namaBaru = namaBaru;
@@ -838,17 +855,17 @@ public:
     // Fungsi untuk mengubah data dengan posisi di Belakang
     void ubahBelakang(string nama, string nim, string namaBaru)
     {
-        if (head == NULL)
+        if (head == nullptr)
         {
             cout << "Linked list kosong" << endl;
             return;
         }
         Mahasiswa *temp = head;
-        while (temp->next != NULL)
+        while (temp->next != head)
         {
             temp = temp->next;
         }
-        cout << "Data " << temp->namaBaru << " telah berhasil diubah dengan data " << namaBaru << "." << endl;
+        cout << "Data " << temp->namaBaru << " berhasil diubah dengan data " << namaBaru << "!" << endl;
         temp->nama = nama;
         temp->nim = nim;
         temp->namaBaru = namaBaru;
@@ -877,7 +894,7 @@ public:
             }
             temp = temp->next;
         }
-        cout << "Data " << temp->namaBaru << " pada posisi " << posisi << " telah berhasil diubah dengan data " << namaBaru << "." << endl;
+        cout << "Data " << temp->namaBaru << " pada posisi " << posisi << " berhasil diubah dengan data " << namaBaru << "!" << endl;
         temp->nama = nama;
         temp->nim = nim;
         temp->namaBaru = namaBaru;
@@ -892,9 +909,14 @@ public:
             return;
         }
         Mahasiswa *temp = head;
-        head = head->next;
-        delete temp;
-        cout << "Data " << temp->namaBaru << " telah berhasil dihapus." << endl; // Menunjukan perintah yang diminta telah berhasil
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+        temp->next = head->next;
+        cout << "Data " << head->namaBaru << " telah berhasil dihapus!" << endl;
+        delete head;
+        head = temp->next;
     }
 
     // Fungsi untuk menghapus data di bagian belakang
@@ -905,20 +927,21 @@ public:
             cout << "Linked list kosong." << endl;
             return;
         }
-        if (head->next == nullptr)
+        if (head->next == head)
         {
             delete head;
             head = nullptr;
+            cout << "Data terakhir berhasil dihapus!" << endl;
             return;
         }
         Mahasiswa *temp = head;
-        while (temp->next->next != nullptr)
+        while (temp->next->next != head)
         {
             temp = temp->next;
         }
-        cout << "Data " << temp->next->namaBaru << " pada posisi terakhir telah berhasil dihapus." << endl;
+        cout << "Data " << temp->next->namaBaru << " pada posisi terakhir telah berhasil dihapus!" << endl;
         delete temp->next;
-        temp->next = nullptr;
+        temp->next = head;
     }
 
     // Fungsi untuk menghapus data di bagian tengah
@@ -937,7 +960,7 @@ public:
         Mahasiswa *temp = head;
         for (int i = 1; i < posisi - 1; i++)
         {
-            if (temp == nullptr || temp->next == nullptr)
+            if (temp == nullptr || temp->next == head)
             {
                 cout << "Posisi tidak tepat." << endl;
                 return;
@@ -946,23 +969,31 @@ public:
         }
         Mahasiswa *nodeToDelete = temp->next;
         temp->next = temp->next->next;
+        cout << "Data " << nodeToDelete->namaBaru << " pada posisi " << posisi << " telah berhasil dihapus!" << endl;
         delete nodeToDelete;
-        cout << "Data " << nodeToDelete->namaBaru << " pada posisi " << posisi << " telah berhasil dihapus." << endl;
     }
 
+    // Fungsi untuk menghapus semua data
     void hapusList()
     {
+        if (head == nullptr)
+        {
+            cout << "Linked list kosong." << endl;
+            return;
+        }
+
         Mahasiswa *temp = head;
-        while (temp != nullptr)
+        while (temp->next != head)
         {
             Mahasiswa *nextNode = temp->next;
             delete temp;
             temp = nextNode;
         }
         head = nullptr;
-        cout << "Seluruh data telah berhasil dihapus." << endl;
+        cout << "Seluruh data telah berhasil dihapus!" << endl;
     }
 
+    // Fungsi untuk menampilkan data
     void tampilkan()
     {
         if (head == nullptr)
@@ -974,27 +1005,27 @@ public:
         cout << "DATA MAHASISWA" << endl;
         cout << "No\tNAMA\t\tNIM" << endl;
         int nomor = 1;
-        while (temp != nullptr)
+        do
         {
             cout << nomor << "\t" << temp->namaBaru << "\t\t" << temp->nim << endl;
             temp = temp->next;
             nomor++;
-        }
+        } while (temp != head);
     }
 };
 
 int main()
 {
-        cout << "\n=========================================" << endl;
-        cout << "=== Nama : Yesika Widiyani ===" << endl;
-        cout << "=== NIM  : 2311102195      ===" << endl;
-        cout << "=========================================" << endl;
-        
+    cout << "\n=========================================" << endl;
+    cout << "=== Nama : Yesika Widiyani ===" << endl;
+    cout << "=== NIM  :     2311102195  ===" << endl;
+    cout << "=========================================" << endl;
+   
     LinkedList linkedList;
 
     while (true)
     {
-        cout << "\nPROGRAM SINGLE LINKED LIST NON-CIRCULAR" << endl;
+        cout << "\nPROGRAM SINGLE LINKED LIST CIRCULAR" << endl;
         cout << "1. Tambah Depan" << endl;
         cout << "2. Tambah Belakang" << endl;
         cout << "3. Tambah Tengah" << endl;
@@ -1018,24 +1049,24 @@ int main()
             string nama, nim, namaBaru;
             cout << "--Tambah Depan--\n";
             cin.ignore(); // Menggunakan cin.ignore() agar getline() bekerja dengan benar setelah cin
-            cout << "Masukkan Nama: ";
+            cout << "Masukkan Nama :\t";
             getline(cin, namaBaru);
-            cout << "Masukkan NIM: ";
+            cout << "Masukkan NIM  :\t";
             cin >> nim;
             linkedList.tambahDepan(nama, nim, namaBaru);
-            cout << "Data telah berhasil ditambahkan" << endl;
+            cout << "Data telah berhasil ditambahkan!" << endl;
         }
         else if (pilih == 2) // Untuk memanggil fungsi menambahkan data di belakang (Tambah Belakang)
         {
             string nama, nim, namaBaru;
             cout << "--Tambah Belakang--\n";
             cin.ignore(); // Menggunakan cin.ignore() agar getline() bekerja dengan benar setelah cin
-            cout << "Masukkan Nama: ";
+            cout << "Masukkan Nama :\t";
             getline(cin, namaBaru);
-            cout << "Masukkan NIM: ";
+            cout << "Masukkan NIM  :\t";
             cin >> nim;
             linkedList.tambahBelakang(nama, nim, namaBaru);
-            cout << "Data telah berhasil ditambahkan" << endl;
+            cout << "Data telah berhasil ditambahkan!" << endl;
         }
         else if (pilih == 3) // Untuk memanggil fungsi menambahkan data di Tengah (Tambah Tengah)
         {
@@ -1043,14 +1074,14 @@ int main()
             int posisi;
             cout << "--Tambah Tengah Sesuai Posisi--\n";
             cin.ignore(); // Menggunakan cin.ignore() agar getline() bekerja dengan benar setelah cin
-            cout << "Masukkan Nama: ";
+            cout << "Masukkan Nama :\t";
             getline(cin, namaBaru);
-            cout << "Masukkan NIM: ";
+            cout << "Masukkan NIM  :\t";
             cin >> nim;
-            cout << "Masukkan Posisi Data: ";
+            cout << "Masukkan Posisi Data : ";
             cin >> posisi;
             linkedList.tambahTengah(nama, nim, namaBaru, posisi);
-            cout << "Data telah berhasil ditambahkan" << endl;
+            cout << "Data telah berhasil ditambahkan!" << endl;
         }
         else if (pilih == 4) // Untuk memanggil fungsi mengubah data di depan (Ubah Depan)
         {
@@ -1058,9 +1089,9 @@ int main()
 
             cout << "--Ubah Depan--\n";
             cin.ignore(); // Menggunakan cin.ignore() agar getline() bekerja dengan benar setelah cin
-            cout << "Masukkan Nama Baru: ";
+            cout << "Masukkan Nama Baru :\t";
             getline(cin, namaBaru);
-            cout << "Masukkan NIM Baru: ";
+            cout << "Masukkan NIM Baru  :\t";
             cin >> nim;
             linkedList.ubahDepan(nama, nim, namaBaru);
         }
@@ -1069,9 +1100,9 @@ int main()
             string nama, nim, namaBaru;
             cout << "--Ubah Belakang--\n";
             cin.ignore(); // Menggunakan cin.ignore() agar getline() bekerja dengan benar setelah cin
-            cout << "Masukkan Nama Baru: ";
+            cout << "Masukkan Nama Baru :\t";
             getline(cin, namaBaru);
-            cout << "Masukkan NIM Baru: ";
+            cout << "Masukkan NIM Baru  :\t";
             cin >> nim;
             linkedList.ubahBelakang(nama, nim, namaBaru);
         }
@@ -1081,11 +1112,11 @@ int main()
             int posisi;
             cout << "--Ubah Tengah--\n";
             cin.ignore(); // Menggunakan cin.ignore() agar getline() bekerja dengan benar setelah cin
-            cout << "Masukkan Nama Baru: ";
+            cout << "Masukkan Nama Baru :\t";
             getline(cin, namaBaru);
-            cout << "Masukkan NIM Baru: ";
+            cout << "Masukkan NIM Baru  :\t";
             cin >> nim;
-            cout << "Masukkan Posisi: ";
+            cout << "Masukkan Posisi : ";
             cin >> posisi;
             linkedList.ubahTengah(nama, nim, namaBaru, posisi);
         }
@@ -1100,7 +1131,7 @@ int main()
         else if (pilih == 9)
         {
             int posisi;
-            cout << "Masukkan Posisi Data: ";
+            cout << "Masukkan Posisi Data :";
             cin >> posisi;
             linkedList.hapusTengah(posisi);
         }
@@ -1119,89 +1150,408 @@ int main()
         }
         else
         {
-            cout << "Pilihan tidak tepat. Silakan masukan pilihan yang tepat." << endl;
+            cout << "Pilihan tidak tepat. Silakan masukan pilihan yang tepat!" << endl;
         }
     }
-
     return 0;
 }
 ```
 
 #### Output
 **MENU**
-![menu](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/9270f1a8-cf6b-48b5-83a6-4a05df2e96b2)
+![menu](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/ba0e2309-ef7d-4641-9aeb-082f69ecd235)
 
 #### Deskripsi Program
-Program di atas adalah sebuah implementasi dari linked list tunggal non-circular dalam bahasa C++. Linked list adalah struktur data linear yang terdiri dari serangkaian simpul (node), di mana setiap simpul terdiri dari dua bagian, yaitu data dan pointer yang menunjuk ke simpul berikutnya. Berikut adalah deskripsi singkat dari setiap bagian program:</br>
+Program di atas adalah implementasi dari sebuah linked list circular dengan menggunakan C++. Berikut adalah deskripsi dari program tersebut:</br>
+1. Class Mahasiswa: Ini adalah kelas yang merepresentasikan objek mahasiswa. Setiap objek Mahasiswa memiliki tiga atribut: nama, nim, dan namaBaru (yang digunakan dalam program ini untuk menyimpan nama baru setelah diubah), serta pointer next yang menunjukkan ke simpul berikutnya dalam linked list.</br>
+2. LinkedList Class: Ini adalah kelas yang merepresentasikan linked list. Ini memiliki satu atribut pribadi, yaitu head, yang menunjukkan ke simpul pertama dalam linked list. Kelas ini memiliki beberapa metode untuk operasi-operasi seperti menambah, mengubah, dan menghapus data, serta menampilkan seluruh data.</br>
+3. Konstruktor: Konstruktor LinkedList digunakan untuk menginisialisasi head menjadi nullptr saat linked list pertama kali dibuat.</br>
+4. Metode Tambah Data:</br>
+a. `tambahDepan()`: Menambahkan data di depan linked list dengan menggeser head ke simpul baru.</br>
+b. `tambahBelakang()`: Menambahkan data di belakang linked list dengan menggeser pointer next simpul terakhir ke simpul baru.</br>
+c. `tambahTengah()`: Menambahkan data di tengah linked list pada posisi yang ditentukan dengan mengubah pointer next simpul sebelumnya.</br>
+5. Metode Ubah Data:</br>
+a. `ubahDepan()`, `ubahBelakang()`, dan `ubahTengah()`: Metode-metode ini digunakan untuk mengubah data di depan, belakang, atau tengah linked list sesuai dengan posisi yang ditentukan.</br>
+6. Metode Hapus Data:</br>
+a. `hapusDepan()`, `hapusBelakang()`, dan `hpausTengah()`: Metode-metode ini digunakan untuk menghapus data di depan, belakang, atau tengah linked list sesuai dengan posisi yang ditentukan.</br>
+b. `hapusList()`: Menghapus seluruh data dari linked list.</br>
+7. Metode Tampilkan: Metode ini digunakan untuk menampilkan semua data dalam linked list.</br>
+8. Main Function: Fungsi utama program. Di dalamnya terdapat loop yang memungkinkan pengguna untuk memilih operasi yang ingin dilakukan, seperti menambah, mengubah, menghapus, atau menampilkan data. Program akan berjalan terus hingga pengguna memilih untuk keluar. Setiap operasi memanggil metode yang sesuai dari objek LinkedList yang telah dibuat sebelumnya.</br>
 
-1. **Class Mahasiswa**:</br>
-   - Kelas ini merepresentasikan simpul dalam linked list. Setiap simpul memiliki tiga data anggota yaitu `nama`, `nim`, dan `namaBaru`, serta sebuah pointer `next` yang menunjuk ke simpul berikutnya.</br>
+Program tersebut bekerja dengan menggunakan konsep linked list circular. Ketika program pertama kali dijalankan, objek LinkedList dibuat dengan head yang menunjuk ke nullptr, menandakan bahwa linked list kosong. Pengguna kemudian diberikan opsi untuk melakukan berbagai operasi, seperti menambah, mengubah, menghapus, atau menampilkan data.</br>
 
-2. **Class LinkedList**:</br>
-   - Kelas ini merupakan implementasi dari linked list. Setiap objek dari kelas LinkedList memiliki sebuah pointer `head` yang menunjuk ke simpul pertama dalam linked list.</br>
-   - Metode-metode yang disediakan oleh kelas ini antara lain:</br>
-     - `tambahDepan`: Menambahkan simpul baru di depan linked list.</br>
-     - `tambahBelakang`: Menambahkan simpul baru di belakang linked list.</br>
-     - `tambahTengah`: Menambahkan simpul baru di tengah linked list berdasarkan posisi yang ditentukan.</br>
-     - `ubahDepan`: Mengubah data pada simpul pertama.</br>
-     - `ubahBelakang`: Mengubah data pada simpul terakhir.</br>
-     - `ubahTengah`: Mengubah data pada simpul di tengah linked list berdasarkan posisi yang ditentukan.</br>
-     - `hapusDepan`: Menghapus simpul pertama dari linked list.</br>
-     - `hapusBelakang`: Menghapus simpul terakhir dari linked list.</br>
-     - `hapusTengah`: Menghapus simpul di tengah linked list berdasarkan posisi yang ditentukan.</br>
-     - `hapusList`: Menghapus seluruh simpul dari linked list.</br>
-     - `tampilkan`: Menampilkan seluruh data mahasiswa yang tersimpan dalam linked list.</br>
+Ketika pengguna memilih untuk menambah data, program meminta input nama, NIM, dan namaBaru dari pengguna. Kemudian, sesuai dengan pilihan pengguna, program akan memanggil salah satu dari tiga metode tambah data yang tersedia: `tambahDepan`, `tambahBelakang`, atau `tambahTengah`. Setiap metode ini akan membuat simpul baru dengan data yang dimasukkan pengguna, dan mengatur pointer next dari simpul-simpul yang tepat agar linked list tetap terhubung dengan benar. Pada linked list circular, jika linked list masih kosong, pointer next dari simpul baru akan menunjuk kembali ke simpul itu sendiri.</br>
 
-3. **Fungsi `main`**:</br>
-   - Fungsi utama yang menjalankan program.</br>
-   - Pada bagian ini, pengguna dapat memilih berbagai operasi untuk mengelola linked list, seperti menambahkan, mengubah, atau menghapus data, serta menampilkan seluruh data yang tersimpan.</br>
+Saat pengguna memilih untuk mengubah data, program akan meminta input nama, NIM, dan namaBaru yang ingin diubah, serta posisi data yang ingin diubah. Kemudian, program akan memanggil salah satu dari tiga metode ubah data yang tersedia: `ubahDepan`, `ubahBelakang`, atau `ubahTengah`. Metode ini akan mencari simpul dengan posisi yang sesuai dan mengubah data di dalamnya sesuai dengan input yang diberikan oleh pengguna.</br>
 
-Program tersebut berjalan dengan menggunakan konsep menu-driven interface di mana pengguna dapat memilih berbagai operasi yang ingin dilakukan terhadap linked list. Berikut adalah cara program tersebut berjalan:</br>
-1. Ketika program pertama kali dijalankan, sebuah menu akan ditampilkan kepada pengguna dengan berbagai pilihan operasi yang dapat dilakukan terhadap linked list.</br>
-2. Pengguna akan diminta untuk memilih operasi yang ingin dilakukan dengan memasukkan nomor pilihan dari menu tersebut.</br>
-3. Setelah pengguna memilih operasi, program akan menjalankan fungsi yang sesuai dengan pilihan pengguna.</br>
-4. Jika pengguna memilih untuk menambahkan data ke linked list, program akan meminta input nama, NIM, dan nama baru (jika ada) dari pengguna sesuai dengan jenis operasi yang dipilih (tambah depan, tambah belakang, atau tambah tengah). Kemudian, data tersebut akan ditambahkan ke linked list sesuai dengan posisi yang ditentukan.</br>
-5. Jika pengguna memilih untuk mengubah data dalam linked list, program akan meminta input nama, NIM, dan nama baru dari pengguna sesuai dengan jenis operasi yang dipilih (ubah depan, ubah belakang, atau ubah tengah). Kemudian, data yang sesuai akan diubah sesuai dengan input pengguna.</br>
-6. Jika pengguna memilih untuk menghapus data dari linked list, program akan meminta input posisi data yang ingin dihapus (jika ada) sesuai dengan jenis operasi yang dipilih (hapus depan, hapus belakang, atau hapus tengah). Kemudian, data yang sesuai akan dihapus dari linked list.</br>
-7. Jika pengguna memilih untuk menampilkan seluruh data yang tersimpan dalam linked list, program akan menampilkan nomor, nama baru, dan NIM dari setiap data mahasiswa yang tersimpan.</br>
-8. Pengguna dapat terus memilih operasi yang ingin dilakukan, dan program akan terus berjalan hingga pengguna memilih untuk keluar dari program.</br>
-Dengan cara ini, pengguna dapat secara interaktif mengelola data dalam linked list menggunakan berbagai operasi yang disediakan. Program akan terus berjalan dan menunggu input dari pengguna hingga pengguna memilih untuk keluar.</br>
+Ketika pengguna memilih untuk menghapus data, program akan meminta input posisi data yang ingin dihapus. Program kemudian akan memanggil salah satu dari tiga metode hapus data yang tersedia: `hapusDepan`, `hapusBelakang`, atau `hapusTengah`. Metode ini akan mencari simpul dengan posisi yang sesuai dan menghapusnya dari linked list, serta memperbarui pointer next dari simpul sebelumnya dan sesudahnya agar linked list tetap terhubung dengan benar.</br>
+
+Setiap kali pengguna memilih untuk menampilkan data, program akan memanggil metode tampilkan yang akan menampilkan semua data yang ada dalam linked list, dari simpul pertama hingga terakhir.</br>
+
+Program akan terus berjalan dan mengulang proses ini hingga pengguna memilih untuk keluar dengan memasukkan pilihan 0.</br>
+
 
 ### 2. Setelah membuat menu tersebut, masukkan data sesuai urutan berikut, lalu tampilkan data yang telah dimasukkan. (Gunakan insert depan, belakang atau tengah)
 ![tabel](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/9f38413b-77dc-4a89-98b9-8a9956ac39c6)
 
-![tabel](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/996865fd-fd16-43f5-bd7a-f4df26134a73)
+#### Untuk menambahkan data pada tabel digunakan fungsi `tambahDepan` dan `tambahBelakang`
+##### Source Code
+```C++
+ // Fungsi untuk menambahkan data di depan
+    void tambahDepan(string nama, string nim, string namaBaru)
+    {
+        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
+        if (head == nullptr)
+        {
+            newNode->next = newNode; // Mengubah pointer next menjadi dirinya sendiri jika linked list masih kosong
+            head = newNode;
+        }
+        else
+        {
+            Mahasiswa *temp = head;
+            while (temp->next != head)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+            head = newNode;
+        }
+    }
+```
+##### Contoh Output
+![image](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/ae824cb2-bc69-4eb6-94b6-f1ef4fced40b)
+
+```C++
+ // Fungsi untuk menambahkan data di belakang
+    void tambahBelakang(string nama, string nim, string namaBaru)
+    {
+        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
+        if (head == nullptr)
+        {
+            newNode->next = newNode; // Mengubah pointer next menjadi dirinya sendiri jika linked list masih kosong
+            head = newNode;
+        }
+        else
+        {
+            Mahasiswa *temp = head;
+            while (temp->next != head)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+```
+##### Contoh Output
+![image](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/6d7eb193-db79-4d36-96c3-682356b37b7c)
+
+#### Hasil Output Keseluruhan Data dalam tabel
+![tabel](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/56c7481e-73c6-4242-98b9-0d062c52c562)
+
 
 ### 3. Lakukan perintah berikut:
 #### a) Tambahkan data berikut diantara Farrel dan Denis: Wati 2330004</br>
-![a](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/685aea91-6a4a-4e9b-b469-2bb8e466e8db)
+##### Menggunakan Fungsi `tambahTengah`
+##### Source Code
+```C++
+ // Fungsi untuk menambahkan data di Tengah
+    void tambahTengah(string nama, string nim, string namaBaru, int posisi)
+    {
+        if (posisi < 1)
+        {
+            cout << "Posisi tidak tepat." << endl;
+            return;
+        }
+        if (posisi == 1)
+        {
+            tambahDepan(nama, nim, namaBaru);
+            return;
+        }
+        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
+        Mahasiswa *temp = head;
+        for (int i = 1; i < posisi - 1; i++)
+        {
+            if (temp == nullptr || temp->next == head)
+            {
+                cout << "Posisi tidak tepat." << endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+```
+##### Output
+![a](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/05870d0d-b9eb-4ce0-b8fa-fa3b7e3e2345)
 
 ## b) Hapus data Denis</br>
-![b](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/505b8580-f53d-41c4-8485-bd2a662c77c2)
+##### Menggunakan Fungsi `hapusTengah`
+##### Source Code
+```C++
+    // Fungsi untuk menghapus data di bagian tengah
+    void hapusTengah(int posisi)
+    {
+        if (posisi < 1)
+        {
+            cout << "Posisi tidak tepat." << endl;
+            return;
+        }
+        if (posisi == 1)
+        {
+            hapusDepan();
+            return;
+        }
+        Mahasiswa *temp = head;
+        for (int i = 1; i < posisi - 1; i++)
+        {
+            if (temp == nullptr || temp->next == head)
+            {
+                cout << "Posisi tidak tepat." << endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        Mahasiswa *nodeToDelete = temp->next;
+        temp->next = temp->next->next;
+        cout << "Data " << nodeToDelete->namaBaru << " pada posisi " << posisi << " telah berhasil dihapus!" << endl;
+        delete nodeToDelete;
+    }
+```
+##### Output
+![b](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/619ab264-960c-4302-b6d4-ae211fbffed8)
+
 
 #### c) Tambahkan data berikut di awal: Owi 2330000</br>
-![c](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/75698123-11c9-4c96-90bf-2e6ea93901c3)
+##### Menggunakan Fungsi `tambahDepan`
+##### Source Code
+```C++
+    // Fungsi untuk menambahkan data di depan
+    void tambahDepan(string nama, string nim, string namaBaru)
+    {
+        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
+        if (head == nullptr)
+        {
+            newNode->next = newNode; // Mengubah pointer next menjadi dirinya sendiri jika linked list masih kosong
+            head = newNode;
+        }
+        else
+        {
+            Mahasiswa *temp = head;
+            while (temp->next != head)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+            head = newNode;
+        }
+    }
+```
+##### Output
+![c](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/00ff5de0-11d4-454d-89ca-9fb5bcab38fc)
 
 #### d) Tambahkan data berikut di akhir:David 23300100</br>
-![d](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/02bd2b34-1396-4c85-9794-82151ad7e5cc)
+##### Menggunakan Fungsi `tambahBelakang`
+##### Source Code
+```C++
+    // Fungsi untuk menambahkan data di belakang
+    void tambahBelakang(string nama, string nim, string namaBaru)
+    {
+        Mahasiswa *newNode = new Mahasiswa(nama, nim, namaBaru);
+        if (head == nullptr)
+        {
+            newNode->next = newNode; // Mengubah pointer next menjadi dirinya sendiri jika linked list masih kosong
+            head = newNode;
+        }
+        else
+        {
+            Mahasiswa *temp = head;
+            while (temp->next != head)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+```
+##### Output
+![d](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/a7507e9a-1854-4585-b8c2-ef91e209ff80)
 
 #### e) Ubah data Udin menjadi data berikut:Idin 23300045</br>
-![e](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/5869c01b-d3fb-46e2-ad1e-47177a37f351)
+##### Menggunakan Fungsi `ubahTengah`
+##### Source Code
+```C++
+    // Fungsi untuk mengubah data dengan posisi di Tengah
+    void ubahTengah(string nama, string nim, string namaBaru, int posisi)
+    {
+        if (posisi < 1)
+        {
+            cout << "Posisi tidak tepat." << endl;
+            return;
+        }
+        if (posisi == 1)
+        {
+            ubahDepan(nama, nim, namaBaru);
+            return;
+        }
+        Mahasiswa *temp = head;
+        for (int i = 1; i < posisi; i++)
+        {
+            if (temp == nullptr)
+            {
+                cout << "Posisi tidak tepat." << endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Data " << temp->namaBaru << " pada posisi " << posisi << " berhasil diubah dengan data " << namaBaru << "!" << endl;
+        temp->nama = nama;
+        temp->nim = nim;
+        temp->namaBaru = namaBaru;
+    }
+```
+##### Output
+![e](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/c8f013fb-c981-48da-9337-34bd60c5c1f9)
 
 #### f) Ubah data terkahir menjadi berikut:Lucy 23300101</br>
-![f](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/dd101097-32d4-4b45-89cc-e7a3e414443d)
+##### Menggunakan Fungsi `ubahBelakang`
+##### Source Code
+```C++
+   // Fungsi untuk mengubah data dengan posisi di Belakang
+    void ubahBelakang(string nama, string nim, string namaBaru)
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked list kosong" << endl;
+            return;
+        }
+        Mahasiswa *temp = head;
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+        cout << "Data " << temp->namaBaru << " berhasil diubah dengan data " << namaBaru << "!" << endl;
+        temp->nama = nama;
+        temp->nim = nim;
+        temp->namaBaru = namaBaru;
+    }
+```
+##### Output
+![f](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/e07372f9-2f4d-4765-a5c4-39c18365e0d5)
 
 #### g) Hapus data awal</br>
-![g](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/520f58ef-3c04-4943-b337-10217bf9e19d)
+##### Menggunakan Fungsi `hapusDepan`
+##### Source Code
+```C++
+    // Fungsi untuk menghapus data di bagian depan
+    void hapusDepan()
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked list kosong." << endl;
+            return;
+        }
+        Mahasiswa *temp = head;
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+        temp->next = head->next;
+        cout << "Data " << head->namaBaru << " telah berhasil dihapus!" << endl;
+        delete head;
+        head = temp->next;
+    }
+```
+##### Output
+![g](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/1f7744e5-485c-41ea-af03-6e7268a5fbdb)
 
 #### h) Ubah data awal menjadi berikut: Bagas 2330002</br>
-![h](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/74116e53-de4f-4eae-875f-57c89fcd07f4)
+##### Menggunakan Fungsi `ubahDepan`
+##### Source Code
+```C++
+    // Fungsi untuk mengubah data dengan posisi di depan
+    void ubahDepan(string nama, string nim, string namaBaru)
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked list kosong." << endl;
+            return;
+        }
+
+        string namaLama = head->nama; // Menyimpan nama sebelumnya
+        cout << "Data " << head->namaBaru << " berhasil diubah dengan data " << namaBaru << "!" << endl;
+        head->nama = nama;
+        head->nim = nim;
+        head->namaBaru = namaBaru;
+    }
+```
+##### Output
+![h](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/cc61d66a-1608-4376-a6af-dcc6534edce3)
 
 #### i) Hapus data akhir</br>
-![i](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/42ade93f-275f-4ac2-93d7-e50c43a3db16)
+##### Menggunakan Fungsi `hapusBelakang`
+##### Source code
+```C++
+    // Fungsi untuk menghapus data di bagian belakang
+    void hapusBelakang()
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked list kosong." << endl;
+            return;
+        }
+        if (head->next == head)
+        {
+            delete head;
+            head = nullptr;
+            cout << "Data terakhir berhasil dihapus!" << endl;
+            return;
+        }
+        Mahasiswa *temp = head;
+        while (temp->next->next != head)
+        {
+            temp = temp->next;
+        }
+        cout << "Data " << temp->next->namaBaru << " pada posisi terakhir telah berhasil dihapus!" << endl;
+        delete temp->next;
+        temp->next = head;
+    }
+```
+##### Output
+![i](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/2074f29d-2629-43c8-9513-ccf9b9d09a25)
 
 #### j) Tampilkan seluruh data</br>
-![j](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/1c26b411-9c53-4dd6-860d-1b6f6b1bb35c)
+##### Menggunakan Fungsi `tampilkan`
+##### Source code
+```C++
+    // Fungsi untuk menampilkan data
+    void tampilkan()
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked list kosong." << endl;
+            return;
+        }
+        Mahasiswa *temp = head;
+        cout << "DATA MAHASISWA" << endl;
+        cout << "No\tNAMA\t\tNIM" << endl;
+        int nomor = 1;
+        do
+        {
+            cout << nomor << "\t" << temp->namaBaru << "\t\t" << temp->nim << endl;
+            temp = temp->next;
+            nomor++;
+        } while (temp != head);
+    }
+};
+```
+##### Output
+![j](https://github.com/yesikaa/Praktikum-Struktur-Data-Assignment/assets/158696794/b6f09ef0-3928-4108-ba37-5cdb9d7bfbdd)
+
 
 ## Kesimpulan
 <div style="text-align: justify; font-size: 12px;"> 
