@@ -444,13 +444,14 @@ Menampilkan Data dan Hasil:
 
 ## Kesimpulan
 <div style="text-align: justify; font-size: 12px;"> 
-Dari modul 8 ini dapat di tarik kesimpulan sebagai berikut :</div>br>
-1. Sequential Search:
+Dari modul 8 ini dapat di tarik kesimpulan sebagai berikut :</br>
+**1.Sequential Search:** </br>
 a. Algoritma pencarian beruntun adalah metode paling sederhana di antara algoritma pencarian lainnya. Ini melibatkan membandingkan setiap elemen satu per satu dalam kumpulan data hingga nilai yang dicari ditemukan atau semua elemen telah diperiksa.
 b. Metode ini efektif digunakan untuk mencari data dalam array baik yang sudah terurut maupun yang belum terurut.
 c. Kelemahan utama dari sequential search adalah kompleksitas waktu yang linear, yaitu O(n), di mana n adalah jumlah elemen dalam kumpulan data.
-
-2. Binary Search:
+</br>
+    
+**2. Binary Search:**</br>
 a. Algoritma pencarian biner digunakan untuk mencari data dalam kumpulan data yang sudah terurut.
 b. Algoritma ini bekerja dengan membagi kumpulan data menjadi dua bagian dan memeriksa elemen tengah. Jika nilai yang dicari kurang dari elemen tengah, pencarian dilanjutkan ke separuh kiri. Jika lebih besar, pencarian dilanjutkan ke separuh kanan.
 c. Keuntungan utama dari binary search adalah kompleksitas waktu yang logaritmik, yaitu O(log n), di mana n adalah jumlah elemen dalam kumpulan data.
