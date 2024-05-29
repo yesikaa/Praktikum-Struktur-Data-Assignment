@@ -8,7 +8,7 @@ using namespace std;
 // Deklarasi Pohon
 struct Pohon 
 {
-    char data;
+    char data_yes2311102195;
     Pohon *left, *right, *parent; //pointer
 };
 
@@ -29,7 +29,7 @@ bool isEmpty()
 Pohon *newPohon(char data) 
 {
     Pohon *node = new Pohon();
-    node->data = data;
+    node->data_yes2311102195 = data;
     node->left = NULL;
     node->right = NULL;
     node->parent = NULL;
@@ -57,14 +57,14 @@ Pohon *insertLeft(char data, Pohon *node)
     } else {
         if (node->left != NULL) 
         {
-            cout << "\nNode " << node->data << " sudah ada child kiri!" << endl;
+            cout << "\nNode " << node->data_yes2311102195 << " sudah ada child kiri!" << endl;
             return NULL;
         } else 
         {
             Pohon *baru = newPohon(data);
             baru->parent = node;
             node->left = baru;
-            cout << "\nNode " << data << " berhasil ditambahkan ke child kiri " << node->data << endl;
+            cout << "\nNode " << data << " berhasil ditambahkan ke child kiri " << node->data_yes2311102195 << endl;
             return baru;
         }
     }
@@ -80,14 +80,14 @@ Pohon *insertRight(char data, Pohon *node)
     {
         if (node->right != NULL) 
         {
-            cout << "\nNode " << node->data << " sudah ada child kanan!" << endl;
+            cout << "\nNode " << node->data_yes2311102195 << " sudah ada child kanan!" << endl;
             return NULL;
         } else 
         {
             Pohon *baru = newPohon(data);
             baru->parent = node;
             node->right = baru;
-            cout << "\nNode " << data << " berhasil ditambahkan ke child kanan " << node->data << endl;
+            cout << "\nNode " << data << " berhasil ditambahkan ke child kanan " << node->data_yes2311102195 << endl;
             return baru;
         }
     }
@@ -104,8 +104,8 @@ void update(char data, Pohon *node)
             cout << "\nNode yang ingin diganti tidak ada!" << endl;
         } else 
         {
-            char temp = node->data;
-            node->data = data;
+            char temp = node->data_yes2311102195;
+            node->data_yes2311102195 = data;
             cout << "\nNode " << temp << " berhasil diubah menjadi " << data << endl;
         }
     }
@@ -122,7 +122,7 @@ void retrieve(Pohon *node)
             cout << "\nNode yang ditunjuk tidak ada!" << endl;
         } else 
         {
-            cout << "\nData node: " << node->data << endl;
+            cout << "\nData node: " << node->data_yes2311102195 << endl;
         }
     }
 }
@@ -138,29 +138,29 @@ void find(Pohon *node)
             cout << "\nNode yang ditunjuk tidak ada!" << endl;
         } else 
         {
-            cout << "\nData Node : " << node->data << endl;
-            cout << "Root : " << root->data << endl;
+            cout << "\nData Node : " << node->data_yes2311102195 << endl;
+            cout << "Root : " << root->data_yes2311102195 << endl;
             if (!node->parent) 
             {
                 cout << "Parent : (tidak punya parent)" << endl;
             } else 
             {
-                cout << "Parent : " << node->parent->data << endl;
+                cout << "Parent : " << node->parent->data_yes2311102195 << endl;
                 if (node->parent->left != node && node->parent->right == node)
-                    cout << "Sibling : " << node->parent->left->data << endl;
+                    cout << "Sibling : " << node->parent->left->data_yes2311102195 << endl;
                 else if (node->parent->right != node && node->parent->left == node)
-                    cout << "Sibling : " << node->parent->right->data << endl;
+                    cout << "Sibling : " << node->parent->right->data_yes2311102195 << endl;
                 else
                     cout << "Sibling : (tidak punya sibling)" << endl;
             }
             if (!node->left)
                 cout << "Child Kiri : (tidak punya Child kiri)" << endl;
             else
-                cout << "Child Kiri : " << node->left->data << endl;
+                cout << "Child Kiri : " << node->left->data_yes2311102195 << endl;
             if (!node->right)
                 cout << "Child Kanan : (tidak punya Child kanan)" << endl;
             else
-                cout << "Child Kanan : " << node->right->data << endl;
+                cout << "Child Kanan : " << node->right->data_yes2311102195 << endl;
         }
     }
 }
@@ -174,15 +174,15 @@ void displayChildren(Pohon *node)
     {
         cout << "\nNode yang ditunjuk tidak ada!" << endl;
     } else {
-        cout << "\nData Node : " << node->data << endl;
+        cout << "\nData Node : " << node->data_yes2311102195 << endl;
         if (!node->left)
             cout << "Child Kiri : (tidak punya Child kiri)" << endl;
         else
-            cout << "Child Kiri : " << node->left->data << endl;
+            cout << "Child Kiri : " << node->left->data_yes2311102195 << endl;
         if (!node->right)
             cout << "Child Kanan : (tidak punya Child kanan)" << endl;
         else
-            cout << "Child Kanan : " << node->right->data << endl;
+            cout << "Child Kanan : " << node->right->data_yes2311102195 << endl;
     }
 }
 
@@ -194,7 +194,7 @@ void preOrder(Pohon *node)
         cout << "\nBuat tree terlebih dahulu!" << endl;
     } else {
         if (node != NULL) {
-            cout << " " << node->data << ", ";
+            cout << " " << node->data_yes2311102195 << ", ";
             preOrder(node->left);
             preOrder(node->right);
         }
@@ -211,7 +211,7 @@ void displayDescendants(Pohon *node)
         cout << "\nNode yang ditunjuk tidak ada!" << endl;
     } else 
     {
-        cout << "\nDescendants of Node " << node->data << " : ";
+        cout << "\nDescendants of Node " << node->data_yes2311102195 << " : ";
         preOrder(node);
         cout << endl;
     }   
@@ -225,7 +225,7 @@ void inOrder(Pohon *node)
     } else {
         if (node != NULL) {
             inOrder(node->left);
-            cout << " " << node->data << ", ";
+            cout << " " << node->data_yes2311102195 << ", ";
             inOrder(node->right);
         }
     }
@@ -240,7 +240,7 @@ void postOrder(Pohon *node)
         if (node != NULL) {
             postOrder(node->left);
             postOrder(node->right);
-            cout << " " << node->data << ", ";
+            cout << " " << node->data_yes2311102195 << ", ";
         }
     }
 }
@@ -282,7 +282,7 @@ void deleteSub(Pohon *node)
     } else {
         deleteTree(node->left);
         deleteTree(node->right);
-        cout << "\nNode subtree " << node->data << " berhasil dihapus." << endl;
+        cout << "\nNode subtree " << node->data_yes2311102195 << " berhasil dihapus." << endl;
     }
 }
 
@@ -352,7 +352,7 @@ void characteristic()
 // Fungsi untuk mencari node berdasarkan data
 Pohon* findNode(Pohon* node, char data) {
     if (!node) return NULL;
-    if (node->data == data) return node;
+    if (node->data_yes2311102195 == data) return node;
     Pohon* foundNode = findNode(node->left, data);
     if (foundNode) return foundNode;
     return findNode(node->right, data);
